@@ -16,7 +16,7 @@ class Xobj {
 		})
 		return this._new(res)
 	}
-	subtract(keys){
+	subset(keys){
 		if (typeof keys !== 'object') keys = [keys]
 		return this.filter((el, key) => keys.includes(key))
 	}
