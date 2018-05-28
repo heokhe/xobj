@@ -47,6 +47,17 @@ class Xobj {
 		})
 		this._obj = res
 	}
+	clone(onlyObject = true){
+		let res = {}
+
+		if (!!onlyObject){
+			res = JSON.parse(JSON.stringify(this._obj))
+		} else {
+			res = this
+		}
+
+		return res
+	}
 }
 
 module.exports = Xobj

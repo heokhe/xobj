@@ -1,19 +1,19 @@
 type key = number | string
 type keyList = [number | string]
 
-interface XobjInterface {
+interface Xobj {
     constructor(obj: object);
 
-    _obj: object;
-    _new(obj: object): XobjInterface
+    private _obj: object;
+    private _new(obj: object): Xobj
 
     get: () => object;
 
-    filter(fn: ((element, key) => any)): XobjInterface;
+    filter(fn: (element: any, key: key) => any): Xobj;
 
-    subset(keys: keyList | key): XobjInterface;
+    subset(keys: keyList | key): Xobj;
 
-    forEachProp(fn: (element, key) => any): XobjInterface;
+    forEachProp(fn: (element: any, key: key) => any): Xobj;
 
     toJSON: () => string;
 
@@ -21,9 +21,11 @@ interface XobjInterface {
         [x: key] : boolean
     };
 
-    mergeWith(...objects: object[]): void
+    mergeWith(...objects: object[]): void;
+
+    clone(onlyObject?: boolean): object | Xobj
 }
 
-declare function xobj(obj: object): XobjInterface
+declare function xobj(obj: object): Xobj
 
 export = xobj
