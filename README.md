@@ -12,10 +12,10 @@ npm i -S xobj # or yarn add xobj
 const xobj = require('xobj')
 
 xobj({
-	foo: 'bar',
-	baz: 'qux',
-	a: 0,
-	b: null
+  foo: 'bar',
+  baz: 'qux',
+  a: 0,
+  b: null
 })
 // now you have your X-Object (it's not a regular object, it's an instance of Xobj)
 ```
