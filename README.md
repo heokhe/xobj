@@ -27,3 +27,4 @@ xobj({
 - `forEachProp(fn)`: works like `Array.prototype.forEach` ⛓✔️
 - `filter(fn)`: works like `Array.prototype.filter` ⛓✔️
 - `subset(keys)`: returns a copy of object with only given keys. ⛓✔️
+- `clone(onlyObject?: boolean)`: clones the X-Object or Object.
