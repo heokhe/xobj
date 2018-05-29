@@ -1,6 +1,8 @@
 # XOBJ: extreme methods for objects ✨
+A tiny and delightful library for manipulating objects with it's own strong prototype.
 ## Features
 - [Methods](#methods) can be chained (chainable ones are specified with ⛓✔️)
+- Memoizer for caching objects
 - No dependencies
 ## Installation
 ```shell
@@ -18,7 +20,7 @@ xobj({
 })
 // now you have your X-Object (it's not a regular object, it's an instance of Xobj)
 ```
-## Methods
+### Methods
 - `get()`: converts to plain object and returns it.
 - `toJSON()`: converts to JSON.
 - `contains(keys)`: checks if the given keys exist in object. if key is a string, it returns a boolean. if it's an array, if returns an object.
