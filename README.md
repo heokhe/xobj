@@ -3,9 +3,8 @@
 - [Methods](#methods) can be chained (chainable ones are specified with ⛓✔️)
 - No dependencies
 ## Installation
-**Still not published!**
 ```shell
-npm i -S xobj # or yarn add xobj
+npm i -S @hkh12/xobj # or yarn add @hkh12/xobj
 ```
 ## Usage
 ```js

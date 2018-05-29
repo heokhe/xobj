@@ -1,5 +1,5 @@
 {
-  "name": "xobj",
+  "name": "@hkh12/xobj",
   "version": "1.0.0",
   "description": "extreme methods for objects",
   "main": "index.js",
