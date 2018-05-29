@@ -1,6 +1,13 @@
+const memoizer = require('./memoizer')
+
 class Xobj {
 	constructor(obj){
-		this._obj = obj
+		if (memoizer.includes(obj)){
+			this._obj = memoizer.find(e => e === obj)
+		} else {
+			this._obj =  obj
+			memoizer.push(obj)
+		}
 	}
 	_new(obj){
 		return new Xobj(obj)
