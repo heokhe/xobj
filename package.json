@@ -1,6 +1,6 @@
 {
   "name": "@hkh12/xobj",
-  "version": "1.0.0",
+  "version": "1.0.1-0",
   "description": "extreme methods for objects",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/Hkh12/xobj.git"
   },
-  "keywords": ["object", "obj"],
+  "keywords": [
+    "object",
+    "obj"
+  ],
   "author": "",
   "license": "GPL-3.0",
   "bugs": {
