@@ -1,22 +1,20 @@
 {
   "name": "xobj",
-  "version": "2.0.0-0",
+  "version": "1.0.0",
   "description": "extreme methods for objects",
   "main": "index.js",
-  "keywords": [
-    "object",
-    "obj"
-  ],
-  "author": "Hosein Khansari <hrk.x11@gmail.com>",
-  "license": "GPL v3",
-  "types": "./index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Hkh12/xobj.git"
   },
+  "keywords": ["object", "obj"],
+  "author": "",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/Hkh12/xobj/issues"
   },
-  "homepage": "https://github.com/Hkh12/xobj#readme",
-  "dependencies": {}
+  "homepage": "https://github.com/Hkh12/xobj#readme"
 }
