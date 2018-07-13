@@ -5,7 +5,7 @@ import { uglify } from 'rollup-plugin-uglify'
 import pkg from './package.json'
 
 const input = 'lib/index.js'
-const packageName = pkg.name.replace(/^@(?:.*)\//, '')
+const packageName = 'x_'
 
 const babelPlugin = babel({ exclude: ['node_modules/**'] })
 

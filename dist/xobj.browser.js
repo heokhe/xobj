@@ -1,4 +1,4 @@
-var xobj = (function () {
+var x_ = (function () {
 	'use strict';
 
 	/** 
@@ -28,13 +28,16 @@ var xobj = (function () {
 	 */
 
 	function only (object, keys) {
-	  if (typeof keys === 'string') keys = [keys];
+		if (typeof keys === 'undefined' || keys === '*' || Array.isArray(keys) && !keys.length || keys === true) return object;
+		if (typeof keys === 'string') keys = [keys];
 
-	  return Object.keys(object).filter(function (e) {
-	    return keys.includes(e);
-	  }).map(function (e) {
-	    return object[e];
-	  });
+		var res = {};
+		Object.keys(object).filter(function (e) {
+			return keys.includes(e);
+		}).forEach(function (e) {
+			res[e] = object[e];
+		});
+		return res;
 	}
 
 	/* import mergeAll from './mergeAll' */
