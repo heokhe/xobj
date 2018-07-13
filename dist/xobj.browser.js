@@ -40,9 +40,25 @@ var x_ = (function () {
 		return res;
 	}
 
+	/**
+	 * Determines if `object` has the given key(s).
+	 * @param {object} object 
+	 * @param {any} key 
+	 * @returns {boolean} A boolean
+	 */
+
+	function has (object, key) {
+	  // more options will come (like functions, regular expressions, ...)
+	  if (Array.isArray(key)) return Object.keys(object).filter(function (e) {
+	    return key.includes(e);
+	  }).every(function (e) {
+	    return e in object;
+	  });else return key in object;
+	}
+
 	/* import mergeAll from './mergeAll' */
 
-	var index = { merge: merge, only: only };
+	var index = { merge: merge, only: only, has: has };
 
 	return index;
 
