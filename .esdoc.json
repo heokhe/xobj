@@ -1,0 +1,11 @@
+{
+	"source": "./lib",
+	"destination": "./docs",
+	"plugins": [{
+		"name": "esdoc-publish-markdown-plugin",
+		"option": {
+			"filename": "README.md"
+		}
+	}],
+	"outputAST": false
+}
