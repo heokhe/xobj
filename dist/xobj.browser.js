@@ -20,9 +20,26 @@ var xobj = (function () {
 		return res;
 	}
 
-	var index = {
-		merge: merge
-	};
+	/**
+	 * Gives you only the wanted keys.
+	 * @param {object} object 
+	 * @param {string | string[]} keys 
+	 * @returns object
+	 */
+
+	function only (object, keys) {
+	  if (typeof keys === 'string') keys = [keys];
+
+	  return Object.keys(object).filter(function (e) {
+	    return keys.includes(e);
+	  }).map(function (e) {
+	    return object[e];
+	  });
+	}
+
+	/* import mergeAll from './mergeAll' */
+
+	var index = { merge: merge, only: only };
 
 	return index;
 
