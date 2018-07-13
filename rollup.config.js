@@ -7,7 +7,6 @@ import pkg from './package.json'
 const input = 'lib/index.js'
 const packageName = pkg.name.replace(/^@(?:.*)\//, '')
 
-const uglifyPlugin = uglify({ output: { comments: 'all' } })
 const babelPlugin = babel({ exclude: ['node_modules/**'] })
 
 export default [
@@ -22,7 +21,20 @@ export default [
 			resolve(),
 			commonjs(),
 			babelPlugin,
-			// uglifyPlugin
+		]
+	},
+	{
+		input,
+		output: {
+			name: packageName,
+			file: pkg.browser.replace(/\.js$/, '.min.js'),
+			format: 'iife'
+		},
+		plugins: [
+			resolve(),
+			commonjs(),
+			babelPlugin,
+			uglify()
 		]
 	},
 	{
