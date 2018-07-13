@@ -1,1 +1,29 @@
-var xobj=function(){"use strict";var n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(n){return typeof n}:function(n){return n&&"function"==typeof Symbol&&n.constructor===Symbol&&n!==Symbol.prototype?"symbol":typeof n},e=function(){function o(n,t){for(var e=0;e<t.length;e++){var o=t[e];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(n,o.key,o)}}return function(n,t,e){return t&&o(n.prototype,t),e&&o(n,e),n}}();var t=function(){function t(n){!function(n,t){if(!(n instanceof t))throw new TypeError("Cannot call a class as a function")}(this,t),this._obj=n}return e(t,[{key:"_new",value:function(n){return new t(n)}},{key:"forEachProp",value:function(t){var e=this;return Object.keys(this._obj).forEach(function(n){return t(e._obj[n],n)}),this}},{key:"filter",value:function(e){var o={};return this.forEachProp(function(n,t){e(n,t)&&(o[t]=n)}),this._new(o)}},{key:"subset",value:function(e){return"object"!==(void 0===e?"undefined":n(e))&&(e=[e]),this.filter(function(n,t){return e.includes(t)})}},{key:"toJSON",value:function(){return JSON.stringify(this._obj)}},{key:"contains",value:function(e){if("object"!==(void 0===e?"undefined":n(e)))return e in this._obj;var o={};return e.forEach(function(n){o[n]=!1}),this.forEachProp(function(n,t){e.includes(t)&&(o[t]=!0)}),o}},{key:"get",value:function(){return this._obj}},{key:"mergeWith",value:function(){for(var t=this._obj,n=arguments.length,e=Array(n),o=0;o<n;o++)e[o]=arguments[o];e.forEach(function(n){Object.assign(t,n)}),this._obj=t}},{key:"clone",value:function(){return!(0<arguments.length&&void 0!==arguments[0])||arguments[0]?JSON.parse(JSON.stringify(this._obj)):this}}]),t}();return function(n){return new t(n)}}();
+var xobj = (function () {
+	'use strict';
+
+	/** 
+	 * Merges given objects with no recursion.
+	 * @param {object[]} objects
+	 * @returns object
+	*/
+
+	function merge() {
+		var res = {};
+
+		for (var _len = arguments.length, objects = Array(_len), _key = 0; _key < _len; _key++) {
+			objects[_key] = arguments[_key];
+		}
+
+		objects.forEach(function (e) {
+			Object.assign(res, e);
+		});
+		return res;
+	}
+
+	var index = {
+		merge: merge
+	};
+
+	return index;
+
+}());

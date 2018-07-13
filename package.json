@@ -4,7 +4,8 @@
   "description": "extreme methods for objects",
   "scripts": {
     "build": "rollup -c",
-    "start": "rollup -cw"
+    "start": "rollup -cw",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",

@@ -22,7 +22,7 @@ export default [
 			resolve(),
 			commonjs(),
 			babelPlugin,
-			uglifyPlugin
+			// uglifyPlugin
 		]
 	},
 	{
