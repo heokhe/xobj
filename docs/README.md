@@ -36,3 +36,11 @@ Gives you only the wanted keys.
 | --- | --- | --- | --- |
 | object | Object |  |
 | keys | string|string[] |  |
+
+## `parsePath(path: string)): string[]`
+
+Parses the path to an array.
+
+| Name | Type | Attribute | Description |
+| --- | --- | --- | --- |
+| path | string) |  |

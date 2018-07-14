@@ -62,18 +62,25 @@ var x_ = (function () {
 				    value = _e[1],
 				    returnedFromCB = key.apply(null, [keyName, value]);
 
-				// if (!!returnedFromCB) res.push(true)
-
-
 				res.push(returnedFromCB);
 			});
 			return !res.length ? false : !!res.find(Boolean);
 		} else return key in object;
 	}
 
-	/* import mergeAll from './mergeAll' */
+	/**
+	 * Parses the path to an array.
+	 * @param {string)} path 
+	 * @returns {string[]} Parsed path
+	 */
+	function parsePath (path) {
+	  path = path.replace(/\[(.+?)\]/g, function ($, $1) {
+	    return '.' + $1.replace(/["'`]/g, '');
+	  });
+	  return path.split('.');
+	}
 
-	var index = { merge: merge, only: only, has: has };
+	var index = { merge: merge, only: only, has: has, parsePath: parsePath };
 
 	return index;
 
