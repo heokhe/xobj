@@ -2,37 +2,37 @@
 
 # Function
 
-## `has(object: object, key: any): boolean`
+## `has(object: Object, key: any): boolean`
 
 Determines if `object` has the given key(s).
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
-| object | object |  |
-| key | any |  |
+| object | Object |  |
+| key | any |  | Could be everything: String, an array of strings, or a function that returns a boolean. |
 
-## `merge(objects: object[]): *`
+## `merge(objects: ...Object): Object`
 
 Merges given objects with no recursion.
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
-| objects | object[] |  |
+| objects | ...Object |  |
 
-## `mergeAll(target: object, source: object)`
+## `mergeAll(target: Object, source: Object)`
 
 Merges with recursion.
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
-| target | object |  |
-| source | object |  |
+| target | Object |  |
+| source | Object |  |
 
-## `only(object: object, keys: string | string[]): *`
+## `only(object: Object, keys: string|string[]): Object`
 
 Gives you only the wanted keys.
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
-| object | object |  |
-| keys | string | string[] |  |
+| object | Object |  |
+| keys | string|string[] |  |
