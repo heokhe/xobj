@@ -17,9 +17,10 @@ const x_ = require('@hkh12/xobj')
 **For a full list of methods, visit [here](docs/README.md).**
 ### Builds
 There are several builds for this library. All of  them are prefixed with `xobj` and are available in `dist` library.
+
 | Filename | Description |
 | --- | --- |
 | `.esm.js` | ES Module |
 | `.common.js` | **Default.** CommonJS module |
-| `.browser.js` | UMD build |
-| `.browser.min.js` | Minified UMD build |
+| `.umd.js` | UMD build |
+| `.umd.min.js` | Minified UMD build |

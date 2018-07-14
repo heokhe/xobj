@@ -28,7 +28,7 @@
     "url": "https://github.com/Hkh12/xobj/issues"
   },
   "main": "dist/xobj.common.js",
-  "browser": "dist/xobj.browser.js",
+  "browser": "dist/xobj.umd.js",
   "module": "dist/xobj.esm.js",
   "homepage": "https://github.com/Hkh12/xobj#readme",
   "devDependencies": {
