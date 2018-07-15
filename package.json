@@ -1,6 +1,6 @@
 {
   "name": "@hkh12/xobj",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.0",
   "description": "Utility library for objects",
   "scripts": {
     "build": "rollup -c",
