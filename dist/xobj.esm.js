@@ -100,6 +100,14 @@ function has (object, key) {
 }
 
 /**
+ * Checks if the given argument is a pure object.
+ * @param {Object} obj
+ */
+var isPure = (function (obj) {
+  return is(obj) && obj instanceof Object;
+});
+
+/**
  * Parses the path to an array.
  * @param {string} path 
  * @returns {string[]} Parsed path
@@ -160,6 +168,6 @@ function forEach (object, cb, options) {
     });
 }
 
-var index = { merge: merge, mergeDeep: md, only: only, has: has, is: is, parsePath: parsePath, getByPath: getByPath, forEach: forEach };
+var index = { merge: merge, mergeDeep: md, only: only, has: has, is: is, isPure: isPure, parsePath: parsePath, getByPath: getByPath, forEach: forEach };
 
 export default index;

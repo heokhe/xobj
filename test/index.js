@@ -20,6 +20,11 @@ it('detects objects', () => {
     expect(x_.is()).toBe(false)
     expect(x_.is([])).toBe(false)
 })
+// isPure
+it('detects pure object', () => {
+    expect(x_.isPure({})).toBe(true)
+    expect(x_.isPure([])).toBe(false)
+})
 // merge
 it('merges', () => {
 	expect(x_.merge(obj1, obj2)).toEqual(Object.assign({}, obj1, obj2))

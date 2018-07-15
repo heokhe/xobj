@@ -212,7 +212,7 @@
     "__docId__": 6,
     "kind": "file",
     "name": "lib/index.js",
-    "content": "import merge from './merge'\nimport mergeDeep from './mergeDeep'\nimport only from './only'\nimport has from './has'\nimport is from './is'\nimport parsePath from './parsePath'\nimport getByPath from './getByPath'\nimport forEach from './forEach'\n\nexport default { merge, mergeDeep, only, has, is, parsePath, getByPath, forEach }",
+    "content": "import merge from './merge'\nimport mergeDeep from './mergeDeep'\nimport only from './only'\nimport has from './has'\nimport is from './is'\nimport isPure from './isPure'\nimport parsePath from './parsePath'\nimport getByPath from './getByPath'\nimport forEach from './forEach'\n\nexport default { merge, mergeDeep, only, has, is, isPure, parsePath, getByPath, forEach }",
     "static": true,
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/index.js",
     "access": null,
@@ -261,6 +261,45 @@
   {
     "__docId__": 9,
     "kind": "file",
+    "name": "lib/isPure.js",
+    "content": "import is from './is'\n\n/**\n * Checks if the given argument is a pure object.\n * @param {Object} obj\n */\nexport default obj => is(obj) && obj instanceof Object",
+    "static": true,
+    "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/isPure.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 10,
+    "kind": "function",
+    "name": "isPure",
+    "memberof": "lib/isPure.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "lib/isPure.js~isPure",
+    "access": null,
+    "export": true,
+    "importPath": "@hkh12/xobj/lib/isPure.js",
+    "importStyle": "isPure",
+    "description": "Checks if the given argument is a pure object.",
+    "lineNumber": 7,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "obj",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "__docId__": 11,
+    "kind": "file",
     "name": "lib/merge.js",
     "content": "/** \n * Merges given objects with no recursion.\n * @param {...Object} objects \n * @returns {Object}\n*/\n\nexport default function(...objects){\n\tlet res = {}\n\tobjects.forEach(e => {\n\t\tObject.assign(res, e)\n\t})\n\treturn res\n}",
     "static": true,
@@ -270,7 +309,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 10,
+    "__docId__": 12,
     "kind": "function",
     "name": "merge",
     "memberof": "lib/merge.js",
@@ -312,7 +351,7 @@
     }
   },
   {
-    "__docId__": 11,
+    "__docId__": 13,
     "kind": "file",
     "name": "lib/mergeDeep.js",
     "content": "import is from './is'\n\n/**\n * Merges with recursion. (deep merge)\n * @param {Object} target \n * @param {Object} source \n * @returns {Object}\n */\n\nexport default function md(target, source) {\n    let res = target\n    for (const key in source) {\n        if (is(source[key])) {\n            if (!target[key]) Object.assign(res, { [key]: {} });\n            md(target[key], source[key]);\n        } else {\n            Object.assign(res, { [key]: source[key] });\n        }\n    }\n    return res\n}",
@@ -323,7 +362,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 12,
+    "__docId__": 14,
     "kind": "function",
     "name": "md",
     "memberof": "lib/mergeDeep.js",
@@ -375,7 +414,7 @@
     }
   },
   {
-    "__docId__": 13,
+    "__docId__": 15,
     "kind": "file",
     "name": "lib/only.js",
     "content": "/**\n * Gives you only the wanted keys.\n * @param {Object} object \n * @param {(string|string[])} keys \n * @returns {Object}\n */\n\nexport default function(object, keys){\n\tif (typeof keys === 'undefined' || \n\t\tkeys === '*' || \n\t\t(Array.isArray(keys) && !keys.length) ||\n\t\tkeys === true) return object\n\tif (typeof keys === 'string') keys = [keys]\n\n\tconst res = {}\n\tObject.keys(object).filter(e => keys.includes(e)).forEach(e => { res[e] = object[e] })\n\treturn res\n}",
@@ -386,7 +425,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 14,
+    "__docId__": 16,
     "kind": "function",
     "name": "only",
     "memberof": "lib/only.js",
@@ -439,7 +478,7 @@
     }
   },
   {
-    "__docId__": 15,
+    "__docId__": 17,
     "kind": "file",
     "name": "lib/parsePath.js",
     "content": "/**\n * Parses the path to an array.\n * @param {string} path \n * @returns {string[]} Parsed path\n */\nexport default function(path){\n\tpath = path.replace(/\\[(.+?)\\]/g, ($, $1) => {\n\t\treturn '.' + $1.replace(/[\"'`]/g, '')\n\t})\n\treturn path.split('.')\n}",
@@ -450,7 +489,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 16,
+    "__docId__": 18,
     "kind": "function",
     "name": "parsePath",
     "memberof": "lib/parsePath.js",

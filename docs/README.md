@@ -40,6 +40,14 @@ Checks if the given argument is an object.
 | --- | --- | --- | --- |
 | obj | Object |  |
 
+## `isPure(obj: Object)`
+
+Checks if the given argument is a pure object.
+
+| Name | Type | Attribute | Description |
+| --- | --- | --- | --- |
+| obj | Object |  |
+
 ## `merge(objects: ...Object): Object`
 
 Merges given objects with no recursion.
