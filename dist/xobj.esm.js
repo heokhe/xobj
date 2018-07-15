@@ -17,6 +17,38 @@ function merge () {
 	return res;
 }
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/**
+ * Checks if the given argument is an object.
+ * @param {Object} obj
+ */
+var is = (function (obj) {
+  return !!obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && !Array.isArray(obj);
+});
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/**
+ * Merges with recursion. (deep merge)
+ * @param {Object} target 
+ * @param {Object} source 
+ * @returns {Object}
+ */
+
+function md(target, source) {
+    var res = target;
+    for (var key in source) {
+        if (is(source[key])) {
+            if (!target[key]) Object.assign(res, _defineProperty({}, key, {}));
+            md(target[key], source[key]);
+        } else {
+            Object.assign(res, _defineProperty({}, key, source[key]));
+        }
+    }
+    return res;
+}
+
 /**
  * Gives you only the wanted keys.
  * @param {Object} object 
@@ -40,18 +72,20 @@ function only (object, keys) {
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 /**
- * Determines if `object` has the given key(s).
+ * Determines if object has the given key(s).
  * @param {Object} object 
  * @param {any} key Could be everything: String, an array of strings, or a function that returns a boolean.
  * @returns {boolean}
  */
 
 function has (object, key) {
-	if (Array.isArray(key)) return Object.keys(object).filter(function (e) {
-		return key.includes(e);
-	}).every(function (e) {
-		return e in object;
-	});else if (typeof key === 'function') {
+	if (Array.isArray(key)) {
+		return Object.keys(object).filter(function (e) {
+			return key.includes(e);
+		}).every(function (e) {
+			return e in object;
+		});
+	} else if (typeof key === 'function') {
 		var res = [];
 		Object.entries(object).forEach(function (e) {
 			var _e = _slicedToArray(e, 2),
@@ -67,7 +101,7 @@ function has (object, key) {
 
 /**
  * Parses the path to an array.
- * @param {string)} path 
+ * @param {string} path 
  * @returns {string[]} Parsed path
  */
 function parsePath (path) {
@@ -77,6 +111,55 @@ function parsePath (path) {
   return path.split('.');
 }
 
-var index = { merge: merge, only: only, has: has, parsePath: parsePath };
+/**
+ * Gets from object by path.
+ * @param {Object} object 
+ * @param {string} path 
+ * @returns {*}
+ */
+function getByPath (object, path) {
+    path = parsePath(path);
+    var t = 0,
+        res = void 0;
+    path.forEach(function (e) {
+        res = (t === 0 ? object : res)[e];
+        t++;
+    });
+    return res;
+}
+
+/**
+ * Loops through object and executes the callback function.
+ * @param {Object} object 
+ * @param {function} cb
+ * @param {Object} options
+ * @param {?string} [options.pass="both"] Choose what arguments to pass to callback. (`values`, `keys` or `both`)
+ * @param {?boolean} [options.fromRight=false] If true, starts the loop from right (in a reversed order).
+ */
+function forEach (object, cb, options) {
+    options = merge(options, {
+        fromRight: false,
+        pass: 'both'
+    });
+    var keys = Object.keys(object);
+    if (options.fromRight) keys = keys.reverse();
+    keys.forEach(function (key) {
+        var value = object[key],
+            args = void 0;
+        switch (options.pass.trim().toUpperCase()) {
+            case 'KEYS':
+                args = [key];
+                break;
+            case 'VALUES':
+                args = [value];
+                break;
+            default:
+                args = [value, key];
+        }
+        cb.apply(null, args);
+    });
+}
+
+var index = { merge: merge, mergeDeep: md, only: only, has: has, is: is, parsePath: parsePath, getByPath: getByPath, forEach: forEach };
 
 export default index;

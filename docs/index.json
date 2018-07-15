@@ -2,8 +2,154 @@
   {
     "__docId__": 0,
     "kind": "file",
+    "name": "lib/forEach.js",
+    "content": "import merge from './merge'\n\n/**\n * Loops through object and executes the callback function.\n * @param {Object} object \n * @param {function} cb\n * @param {Object} options\n * @param {?string} [options.pass=\"both\"] Choose what arguments to pass to callback. (`values`, `keys` or `both`)\n * @param {?boolean} [options.fromRight=false] If true, starts the loop from right (in a reversed order).\n */\nexport default function(object, cb, options){\n    options = merge(options, {\n        fromRight: false,\n        pass: 'both'\n    })\n    let keys = Object.keys(object)\n    if (options.fromRight) keys = keys.reverse()\n    keys.forEach(key => {\n        let value = object[key], args;\n        switch (options.pass.trim().toUpperCase()){\n            case 'KEYS': \n                args = [key]\n                break\n            case 'VALUES': \n                args = [value]\n                break\n            default:\n                args = [value, key]\n        }\n        cb.apply(null, args)\n    })\n}",
+    "static": true,
+    "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/forEach.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 1,
+    "kind": "function",
+    "name": "forEach",
+    "memberof": "lib/forEach.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "lib/forEach.js~forEach",
+    "access": null,
+    "export": true,
+    "importPath": "@hkh12/xobj/lib/forEach.js",
+    "importStyle": "forEach",
+    "description": "Loops through object and executes the callback function.",
+    "lineNumber": 11,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "object",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "cb",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "options",
+        "description": ""
+      },
+      {
+        "nullable": true,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "\"both\"",
+        "defaultRaw": "both",
+        "name": "options.pass",
+        "description": "Choose what arguments to pass to callback. (`values`, `keys` or `both`)"
+      },
+      {
+        "nullable": true,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "false",
+        "defaultRaw": false,
+        "name": "options.fromRight",
+        "description": "If true, starts the loop from right (in a reversed order)."
+      }
+    ]
+  },
+  {
+    "__docId__": 2,
+    "kind": "file",
+    "name": "lib/getByPath.js",
+    "content": "import parsePath from './parsePath'\n\n/**\n * Gets from object by path.\n * @param {Object} object \n * @param {string} path \n * @returns {*}\n */\nexport default function(object, path) {\n    path = parsePath(path)\n    let t = 0, res;\n    path.forEach(e => {\n        res = (t === 0 ? object : res)[e]\n        t++\n    })\n    return res\n}",
+    "static": true,
+    "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/getByPath.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 3,
+    "kind": "function",
+    "name": "getByPath",
+    "memberof": "lib/getByPath.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "lib/getByPath.js~getByPath",
+    "access": null,
+    "export": true,
+    "importPath": "@hkh12/xobj/lib/getByPath.js",
+    "importStyle": "getByPath",
+    "description": "Gets from object by path.",
+    "lineNumber": 9,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{*}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "object",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "path",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "*"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 4,
+    "kind": "file",
     "name": "lib/has.js",
-    "content": "/**\n * Determines if `object` has the given key(s).\n * @param {Object} object \n * @param {any} key Could be everything: String, an array of strings, or a function that returns a boolean.\n * @returns {boolean}\n */\n\nexport default function(object, key){\n\tif (Array.isArray(key)) return Object.keys(object).filter(e => key.includes(e)).every(e => e in object)\n\telse if (typeof key === 'function') {\n\t\tlet res = []\n\t\tObject.entries(object).forEach(e => {\n\t\t\tlet [keyName, value] = e,\n\t\t\treturnedFromCB = key.apply(null, [keyName, value])\n\t\t\tres.push(returnedFromCB)\n\t\t})\n\t\treturn !res.length ? false : !!res.find(Boolean)\n\t}\n\telse return key in object\n}",
+    "content": "/**\n * Determines if object has the given key(s).\n * @param {Object} object \n * @param {any} key Could be everything: String, an array of strings, or a function that returns a boolean.\n * @returns {boolean}\n */\n\nexport default function(object, key){\n\tif (Array.isArray(key)){\n        return Object.keys(object).filter(e => key.includes(e)).every(e => e in object)\n    }\n\telse if (typeof key === 'function') {\n\t\tlet res = []\n\t\tObject.entries(object).forEach(e => {\n\t\t\tlet [keyName, value] = e,\n\t\t\treturnedFromCB = key.apply(null, [keyName, value])\n\t\t\tres.push(returnedFromCB)\n\t\t})\n\t\treturn !res.length ? false : !!res.find(Boolean)\n\t}\n\telse return key in object\n}",
     "static": true,
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/has.js",
     "access": null,
@@ -11,7 +157,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 1,
+    "__docId__": 5,
     "kind": "function",
     "name": "has",
     "memberof": "lib/has.js",
@@ -23,7 +169,7 @@
     "export": true,
     "importPath": "@hkh12/xobj/lib/has.js",
     "importStyle": "has",
-    "description": "Determines if `object` has the given key(s).",
+    "description": "Determines if object has the given key(s).",
     "lineNumber": 8,
     "unknown": [
       {
@@ -63,10 +209,10 @@
     }
   },
   {
-    "__docId__": 2,
+    "__docId__": 6,
     "kind": "file",
     "name": "lib/index.js",
-    "content": "import merge from './merge'\nimport only from './only'\nimport has from './has'\nimport parsePath from './parsePath'\n\nexport default { merge, only, has, parsePath }",
+    "content": "import merge from './merge'\nimport mergeDeep from './mergeDeep'\nimport only from './only'\nimport has from './has'\nimport is from './is'\nimport parsePath from './parsePath'\nimport getByPath from './getByPath'\nimport forEach from './forEach'\n\nexport default { merge, mergeDeep, only, has, is, parsePath, getByPath, forEach }",
     "static": true,
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/index.js",
     "access": null,
@@ -74,7 +220,46 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 3,
+    "__docId__": 7,
+    "kind": "file",
+    "name": "lib/is.js",
+    "content": "/**\n * Checks if the given argument is an object.\n * @param {Object} obj\n */\nexport default obj => !!obj && typeof obj === 'object' && !Array.isArray(obj)",
+    "static": true,
+    "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/is.js",
+    "access": null,
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 8,
+    "kind": "function",
+    "name": "is",
+    "memberof": "lib/is.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "lib/is.js~is",
+    "access": null,
+    "export": true,
+    "importPath": "@hkh12/xobj/lib/is.js",
+    "importStyle": "is",
+    "description": "Checks if the given argument is an object.",
+    "lineNumber": 5,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "obj",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "__docId__": 9,
     "kind": "file",
     "name": "lib/merge.js",
     "content": "/** \n * Merges given objects with no recursion.\n * @param {...Object} objects \n * @returns {Object}\n*/\n\nexport default function(...objects){\n\tlet res = {}\n\tobjects.forEach(e => {\n\t\tObject.assign(res, e)\n\t})\n\treturn res\n}",
@@ -85,7 +270,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 4,
+    "__docId__": 10,
     "kind": "function",
     "name": "merge",
     "memberof": "lib/merge.js",
@@ -127,31 +312,37 @@
     }
   },
   {
-    "__docId__": 5,
+    "__docId__": 11,
     "kind": "file",
-    "name": "lib/mergeAll.js",
-    "content": "import merge from './merge'\nimport has from './has'\n\n/**\n * Merges with recursion.\n * @param {Object} target \n * @param {Object} source \n */\nfunction mergeAll(target, source){\n\tfor (const key in source) {\n\t\tif (source.hasOwnProperty(key)) {\n\t\t\tlet sel = source[key],\n\t\t\ttel = target[key];\n\n\t\t\tif (typeof sel === 'object' && typeof tel === 'object' && has(sel, (k, v) => typeof v === 'object')){\n\t\t\t\tsel = merge(sel, tel)\n\t\t\t}\n\t\t\ttarget[key] = sel\n\t\t}\n\t}\n\treturn target\n}\n\nexport default mergeAll",
+    "name": "lib/mergeDeep.js",
+    "content": "import is from './is'\n\n/**\n * Merges with recursion. (deep merge)\n * @param {Object} target \n * @param {Object} source \n * @returns {Object}\n */\n\nexport default function md(target, source) {\n    let res = target\n    for (const key in source) {\n        if (is(source[key])) {\n            if (!target[key]) Object.assign(res, { [key]: {} });\n            md(target[key], source[key]);\n        } else {\n            Object.assign(res, { [key]: source[key] });\n        }\n    }\n    return res\n}",
     "static": true,
-    "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/mergeAll.js",
+    "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/mergeDeep.js",
     "access": null,
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 6,
+    "__docId__": 12,
     "kind": "function",
-    "name": "mergeAll",
-    "memberof": "lib/mergeAll.js",
+    "name": "md",
+    "memberof": "lib/mergeDeep.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "lib/mergeAll.js~mergeAll",
+    "longname": "lib/mergeDeep.js~md",
     "access": null,
     "export": true,
-    "importPath": "@hkh12/xobj/lib/mergeAll.js",
-    "importStyle": "mergeAll",
-    "description": "Merges with recursion.",
-    "lineNumber": 9,
+    "importPath": "@hkh12/xobj/lib/mergeDeep.js",
+    "importStyle": "md",
+    "description": "Merges with recursion. (deep merge)",
+    "lineNumber": 10,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Object}"
+      }
+    ],
     "params": [
       {
         "nullable": null,
@@ -173,10 +364,18 @@
         "name": "source",
         "description": ""
       }
-    ]
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": ""
+    }
   },
   {
-    "__docId__": 7,
+    "__docId__": 13,
     "kind": "file",
     "name": "lib/only.js",
     "content": "/**\n * Gives you only the wanted keys.\n * @param {Object} object \n * @param {(string|string[])} keys \n * @returns {Object}\n */\n\nexport default function(object, keys){\n\tif (typeof keys === 'undefined' || \n\t\tkeys === '*' || \n\t\t(Array.isArray(keys) && !keys.length) ||\n\t\tkeys === true) return object\n\tif (typeof keys === 'string') keys = [keys]\n\n\tconst res = {}\n\tObject.keys(object).filter(e => keys.includes(e)).forEach(e => { res[e] = object[e] })\n\treturn res\n}",
@@ -187,7 +386,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 8,
+    "__docId__": 14,
     "kind": "function",
     "name": "only",
     "memberof": "lib/only.js",
@@ -240,10 +439,10 @@
     }
   },
   {
-    "__docId__": 9,
+    "__docId__": 15,
     "kind": "file",
     "name": "lib/parsePath.js",
-    "content": "/**\n * Parses the path to an array.\n * @param {string)} path \n * @returns {string[]} Parsed path\n */\nexport default function(path){\n\tpath = path.replace(/\\[(.+?)\\]/g, ($, $1) => {\n\t\treturn '.' + $1.replace(/[\"'`]/g, '')\n\t})\n\treturn path.split('.')\n}",
+    "content": "/**\n * Parses the path to an array.\n * @param {string} path \n * @returns {string[]} Parsed path\n */\nexport default function(path){\n\tpath = path.replace(/\\[(.+?)\\]/g, ($, $1) => {\n\t\treturn '.' + $1.replace(/[\"'`]/g, '')\n\t})\n\treturn path.split('.')\n}",
     "static": true,
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/parsePath.js",
     "access": null,
@@ -251,7 +450,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 10,
+    "__docId__": 16,
     "kind": "function",
     "name": "parsePath",
     "memberof": "lib/parsePath.js",
@@ -275,7 +474,7 @@
       {
         "nullable": null,
         "types": [
-          "string)"
+          "string"
         ],
         "spread": false,
         "optional": false,
@@ -294,7 +493,7 @@
   },
   {
     "kind": "index",
-    "content": "# XOBJ: extreme methods for objects ✨\nA tiny and delightful library for manipulating objects with it's own strong prototype.\n> **IMPORTANT NOTICE**: I'm working on v2 with a different API, The current API (v1.1) will become deprecated. The old API is available on branch `v1`.\n## Installation\n**v2 is not published yet**, but it'll be available as `@hkh12/xobj`.\n```sh\nnpm install @hkh12/xobj\n```\n## Docs\nFor a full documentation, visit [here](docs/README.md).",
+    "content": "# XOBJ: extreme methods for objects ✨\nA tiny and delightful library for manipulating objects.\n> **IMPORTANT NOTICE**: I'm working on v2 with a different API, The current API (v1.1) will become deprecated. The old API is available on branch `v1`.\n## Feauters\n- No dependencies _(at least for now)_\n- Fast and lightweight ⚡️\n# Installation\n**v2 is not published yet**, but it'll be available as `@hkh12/xobj`.\n```sh\nnpm install @hkh12/xobj\n```\n## Usage\n```js\n// `x_` is an alias to xobj\nconst x_ = require('@hkh12/xobj')\n```\n**For a full list of methods, visit [here](docs/README.md).**\n### Builds\nThere are several builds for this library. All of  them are prefixed with `xobj` and are available in `dist` library.\n\n| Filename | Description |\n| --- | --- |\n| `.esm.js` | ES Module |\n| `.common.js` | **Default.** CommonJS module |\n| `.umd.js` | UMD build |\n| `.umd.min.js` | Minified UMD build |",
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/README.md",
     "name": "./README.md",
     "static": true,
@@ -302,7 +501,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"@hkh12/xobj\",\n  \"version\": \"1.1.0\",\n  \"description\": \"extreme methods for objects\",\n  \"scripts\": {\n    \"build\": \"rollup -c\",\n    \"start\": \"rollup -cw\",\n    \"prepublish\": \"npm run build\",\n    \"pretest\": \"npm run build\",\n    \"test\": \"jest\",\n    \"makedocs\": \"esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/Hkh12/xobj.git\"\n  },\n  \"keywords\": [\n    \"object\",\n    \"obj\",\n    \"utility\",\n    \"util\",\n    \"utils\",\n    \"utility-library\"\n  ],\n  \"author\": \"Hosein Khansari <hrk.x11@gmail.com>\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/Hkh12/xobj/issues\"\n  },\n  \"main\": \"dist/xobj.common.js\",\n  \"browser\": \"dist/xobj.browser.js\",\n  \"module\": \"dist/xobj.esm.js\",\n  \"homepage\": \"https://github.com/Hkh12/xobj#readme\",\n  \"devDependencies\": {\n    \"babel-plugin-external-helpers\": \"^6.22.0\",\n    \"babel-preset-env\": \"^1.7.0\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-publish-markdown-plugin\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"jest\": \"^23.4.0\",\n    \"rollup\": \"^0.62.0\",\n    \"rollup-plugin-babel\": \"^3.0.7\",\n    \"rollup-plugin-commonjs\": \"^9.1.3\",\n    \"rollup-plugin-node-resolve\": \"^3.3.0\",\n    \"rollup-plugin-uglify\": \"^4.0.0\"\n  },\n  \"dependencies\": {\n    \"babel-core\": \"^6.26.3\"\n  },\n  \"files\": [\n    \"dist\"\n  ],\n  \"jest\": {\n    \"testRegex\": \"/test/.*.js$\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"@hkh12/xobj\",\n  \"version\": \"1.1.0\",\n  \"description\": \"extreme methods for objects\",\n  \"scripts\": {\n    \"build\": \"rollup -c\",\n    \"start\": \"rollup -cw\",\n    \"prepublish\": \"npm run build\",\n    \"pretest\": \"npm run build\",\n    \"test\": \"jest\",\n    \"makedocs\": \"esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/Hkh12/xobj.git\"\n  },\n  \"keywords\": [\n    \"object\",\n    \"obj\",\n    \"utility\",\n    \"util\",\n    \"utils\",\n    \"utility-library\"\n  ],\n  \"author\": \"Hosein Khansari <hrk.x11@gmail.com>\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/Hkh12/xobj/issues\"\n  },\n  \"main\": \"dist/xobj.common.js\",\n  \"browser\": \"dist/xobj.umd.js\",\n  \"module\": \"dist/xobj.esm.js\",\n  \"homepage\": \"https://github.com/Hkh12/xobj#readme\",\n  \"devDependencies\": {\n    \"babel-preset-env\": \"^1.7.0\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-publish-markdown-plugin\": \"^1.1.0\",\n    \"jest\": \"^23.4.0\",\n    \"rollup\": \"^0.62.0\",\n    \"rollup-plugin-babel\": \"^3.0.7\",\n    \"rollup-plugin-commonjs\": \"^9.1.3\",\n    \"rollup-plugin-node-resolve\": \"^3.3.0\",\n    \"rollup-plugin-uglify\": \"^4.0.0\"\n  },\n  \"dependencies\": {\n    \"babel-core\": \"^6.26.3\"\n  },\n  \"files\": [\n    \"dist\"\n  ],\n  \"jest\": {\n    \"testRegex\": \"/test/.*.js$\"\n  }\n}\n",
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/package.json",
     "name": "package.json",
     "static": true,
