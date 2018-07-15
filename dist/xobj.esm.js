@@ -22,9 +22,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 /**
  * Checks if the given argument is an object.
  * @param {Object} obj
+ * @param {boolean} [acceptArrays=false] If true, accepts arrays too.
+ * @returns {boolean}
  */
-var is = (function (obj) {
-  return !!obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && !Array.isArray(obj);
+var is = (function (obj, acceptArrays) {
+  return !!obj && (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object' && (acceptArrays ? true : !Array.isArray(obj));
 });
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -102,9 +104,10 @@ function has (object, key) {
 /**
  * Checks if the given argument is a pure object.
  * @param {Object} obj
+ * @returns {boolean}
  */
 var isPure = (function (obj) {
-  return is(obj) && obj instanceof Object;
+  return is(obj, false) && obj instanceof Object;
 });
 
 /**

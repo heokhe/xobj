@@ -223,7 +223,7 @@
     "__docId__": 7,
     "kind": "file",
     "name": "lib/is.js",
-    "content": "/**\n * Checks if the given argument is an object.\n * @param {Object} obj\n */\nexport default obj => !!obj && typeof obj === 'object' && !Array.isArray(obj)",
+    "content": "/**\n * Checks if the given argument is an object.\n * @param {Object} obj\n * @param {boolean} [acceptArrays=false] If true, accepts arrays too.\n * @returns {boolean}\n */\nexport default (obj, acceptArrays) => !!obj && typeof obj === 'object' && (acceptArrays ? true : !Array.isArray(obj))",
     "static": true,
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/is.js",
     "access": null,
@@ -244,7 +244,13 @@
     "importPath": "@hkh12/xobj/lib/is.js",
     "importStyle": "is",
     "description": "Checks if the given argument is an object.",
-    "lineNumber": 5,
+    "lineNumber": 7,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{boolean}"
+      }
+    ],
     "params": [
       {
         "nullable": null,
@@ -255,14 +261,34 @@
         "optional": false,
         "name": "obj",
         "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "false",
+        "defaultRaw": false,
+        "name": "acceptArrays",
+        "description": "If true, accepts arrays too."
       }
-    ]
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
   },
   {
     "__docId__": 9,
     "kind": "file",
     "name": "lib/isPure.js",
-    "content": "import is from './is'\n\n/**\n * Checks if the given argument is a pure object.\n * @param {Object} obj\n */\nexport default obj => is(obj) && obj instanceof Object",
+    "content": "import is from './is'\n\n/**\n * Checks if the given argument is a pure object.\n * @param {Object} obj\n * @returns {boolean}\n */\nexport default obj => is(obj, false) && obj instanceof Object",
     "static": true,
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/isPure.js",
     "access": null,
@@ -283,7 +309,13 @@
     "importPath": "@hkh12/xobj/lib/isPure.js",
     "importStyle": "isPure",
     "description": "Checks if the given argument is a pure object.",
-    "lineNumber": 7,
+    "lineNumber": 8,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{boolean}"
+      }
+    ],
     "params": [
       {
         "nullable": null,
@@ -295,7 +327,15 @@
         "name": "obj",
         "description": ""
       }
-    ]
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "boolean"
+      ],
+      "spread": false,
+      "description": ""
+    }
   },
   {
     "__docId__": 11,

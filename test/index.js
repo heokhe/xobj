@@ -19,6 +19,7 @@ it('detects objects', () => {
     expect(x_.is({})).toBe(true)
     expect(x_.is()).toBe(false)
     expect(x_.is([])).toBe(false)
+    expect(x_.is([], true)).toBe(true)
 })
 // isPure
 it('detects pure object', () => {

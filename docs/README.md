@@ -32,15 +32,16 @@ Determines if object has the given key(s).
 | object | Object |  |
 | key | any |  | Could be everything: String, an array of strings, or a function that returns a boolean. |
 
-## `is(obj: Object)`
+## `is(obj: Object, acceptArrays: boolean): boolean`
 
 Checks if the given argument is an object.
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
 | obj | Object |  |
+| acceptArrays | boolean | optional: true, default: false | If true, accepts arrays too. |
 
-## `isPure(obj: Object)`
+## `isPure(obj: Object): boolean`
 
 Checks if the given argument is a pure object.
 
