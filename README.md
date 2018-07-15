@@ -8,9 +8,14 @@ A set of functions to work with objects, with no pain.
 ## Feauters
 - No dependencies _(at least for now)_
 - Fast and lightweight ⚡️
-# Installation
+## Installation
+### Using NPM
 ```sh
 npm install @hkh12/xobj
+```
+### Using `<script>` tag
+```html
+<script src="https://unpkg.com/@hkh12/xobj/dist/xobj.umd.min.js"></script>
 ```
 ## Usage
 ```js
