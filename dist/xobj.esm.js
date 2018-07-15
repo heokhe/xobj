@@ -38,12 +38,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * @returns {Object}
  */
 
-function md(target, source) {
+function mergeDeep(target, source) {
     var res = target;
     for (var key in source) {
         if (is(source[key])) {
             if (!target[key]) Object.assign(res, _defineProperty({}, key, {}));
-            md(target[key], source[key]);
+            mergeDeep(target[key], source[key]);
         } else {
             Object.assign(res, _defineProperty({}, key, source[key]));
         }
@@ -171,6 +171,6 @@ function forEach (object, cb, options) {
     });
 }
 
-var index = { merge: merge, mergeDeep: md, only: only, has: has, is: is, isPure: isPure, parsePath: parsePath, getByPath: getByPath, forEach: forEach };
+var index = { merge: merge, mergeDeep: mergeDeep, only: only, has: has, is: is, isPure: isPure, parsePath: parsePath, getByPath: getByPath, forEach: forEach };
 
 export default index;
