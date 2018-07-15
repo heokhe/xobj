@@ -1,4 +1,8 @@
 # XOBJ: extreme methods for objects ✨
+![](https://api.travis-ci.org/Hkh12/xobj.svg)
+![](https://david-dm.org/Hkh12/xobj.svg)
+![](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)
+
 A tiny and delightful library for manipulating objects.
 > **IMPORTANT NOTICE**: I'm working on v2 with a different API, The current API (v1.1) will become deprecated. The old API is available on branch `v1`.
 ## Feauters
