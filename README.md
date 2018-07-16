@@ -24,7 +24,7 @@ const x_ = require('@hkh12/xobj')
 ``` 
 **For a full list of methods, visit [here](docs/README.md).**
 ### Builds
-There are several builds for this library. All of  them are prefixed with `xobj` and are available in `dist` library.
+There are several builds for this library. All of  them are prefixed with `xobj` and are available in `dist` directory.
 
 | Filename | Description |
 | --- | --- |
