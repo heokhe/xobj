@@ -149,7 +149,7 @@
     "__docId__": 4,
     "kind": "file",
     "name": "lib/has.js",
-    "content": "/**\n * Determines if object has the given key(s).\n * @param {Object} object \n * @param {any} key Could be everything: String, an array of strings, or a function that returns a boolean.\n * @returns {boolean}\n */\n\nexport default function(object, key){\n\tif (Array.isArray(key)){\n        return Object.keys(object).filter(e => key.includes(e)).every(e => e in object)\n    }\n\telse if (typeof key === 'function') {\n\t\tlet res = []\n\t\tObject.entries(object).forEach(e => {\n\t\t\tlet [keyName, value] = e,\n\t\t\treturnedFromCB = key.apply(null, [keyName, value])\n\t\t\tres.push(returnedFromCB)\n\t\t})\n\t\treturn !res.length ? false : !!res.find(Boolean)\n\t}\n\telse return key in object\n}",
+    "content": "import keysEq from './_keysEq'\n/**\n * Determines if object has the given key(s).\n * @param {Object} object \n * @param {any} key Could be everything: String, an array of strings, or a function that returns a boolean.\n * @param {?boolean} strict If true and `key` is an array, returns true if `key` is exactly equal to object keys.\n * @returns {boolean}\n */\n\nexport default function(object, key, strict){\n\tif (Array.isArray(key)){\n        let _keys = Object.keys(object)\n        if (strict){\n            return keysEq(_keys, key)\n        } else {\n            return _keys.filter(e => key.includes(e)).every(e => e in object)\n        }\n    }\n\telse if (typeof key === 'function') {\n\t\tlet res = []\n\t\tObject.entries(object).forEach(e => {\n\t\t\tlet [keyName, value] = e,\n\t\t\treturnedFromCB = key.apply(null, [keyName, value])\n\t\t\tres.push(returnedFromCB)\n\t\t})\n\t\treturn !res.length ? false : !!res.find(Boolean)\n\t}\n\telse return key in object\n}",
     "static": true,
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/has.js",
     "access": null,
@@ -170,7 +170,7 @@
     "importPath": "@hkh12/xobj/lib/has.js",
     "importStyle": "has",
     "description": "Determines if object has the given key(s).",
-    "lineNumber": 8,
+    "lineNumber": 10,
     "unknown": [
       {
         "tagName": "@returns",
@@ -197,6 +197,16 @@
         "optional": false,
         "name": "key",
         "description": "Could be everything: String, an array of strings, or a function that returns a boolean."
+      },
+      {
+        "nullable": true,
+        "types": [
+          "boolean"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "strict",
+        "description": "If true and `key` is an array, returns true if `key` is exactly equal to object keys."
       }
     ],
     "return": {
@@ -223,7 +233,7 @@
     "__docId__": 7,
     "kind": "file",
     "name": "lib/is.js",
-    "content": "/**\n * Checks if the given argument is an object.\n * @param {Object} obj\n * @param {boolean} [acceptArrays=false] If true, accepts arrays too.\n * @returns {boolean}\n */\nexport default (obj, acceptArrays) => !!obj && typeof obj === 'object' && (acceptArrays ? true : !Array.isArray(obj))",
+    "content": "/**\n * Checks if the given argument is an object.\n * @param {Object} obj\n * @param {?boolean} acceptArrays If true, accepts arrays too.\n * @returns {boolean}\n */\nexport default (obj, acceptArrays) => !!obj && typeof obj === 'object' && (acceptArrays ? true : !Array.isArray(obj))",
     "static": true,
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/is.js",
     "access": null,
@@ -263,14 +273,12 @@
         "description": ""
       },
       {
-        "nullable": null,
+        "nullable": true,
         "types": [
           "boolean"
         ],
         "spread": false,
-        "optional": true,
-        "defaultValue": "false",
-        "defaultRaw": false,
+        "optional": false,
         "name": "acceptArrays",
         "description": "If true, accepts arrays too."
       }
@@ -394,7 +402,7 @@
     "__docId__": 13,
     "kind": "file",
     "name": "lib/mergeDeep.js",
-    "content": "import is from './is'\n\n/**\n * Merges with recursion. (deep merge)\n * @param {Object} target \n * @param {Object} source \n * @returns {Object}\n */\n\nexport default function md(target, source) {\n    let res = target\n    for (const key in source) {\n        if (is(source[key])) {\n            if (!target[key]) Object.assign(res, { [key]: {} });\n            md(target[key], source[key]);\n        } else {\n            Object.assign(res, { [key]: source[key] });\n        }\n    }\n    return res\n}",
+    "content": "import is from './is'\n\n/**\n * Merges with recursion. (deep merge)\n * @param {Object} target \n * @param {Object} source \n * @returns {Object}\n */\n\nexport default function mergeDeep(target, source) {\n    let res = target\n    for (const key in source) {\n        if (is(source[key])) {\n            if (!target[key]) Object.assign(res, { [key]: {} });\n            mergeDeep(target[key], source[key]);\n        } else {\n            Object.assign(res, { [key]: source[key] });\n        }\n    }\n    return res\n}",
     "static": true,
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/lib/mergeDeep.js",
     "access": null,
@@ -404,16 +412,16 @@
   {
     "__docId__": 14,
     "kind": "function",
-    "name": "md",
+    "name": "mergeDeep",
     "memberof": "lib/mergeDeep.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "lib/mergeDeep.js~md",
+    "longname": "lib/mergeDeep.js~mergeDeep",
     "access": null,
     "export": true,
     "importPath": "@hkh12/xobj/lib/mergeDeep.js",
-    "importStyle": "md",
+    "importStyle": "mergeDeep",
     "description": "Merges with recursion. (deep merge)",
     "lineNumber": 10,
     "unknown": [
@@ -572,7 +580,7 @@
   },
   {
     "kind": "index",
-    "content": "# XOBJ: extreme methods for objects ✨\nA tiny and delightful library for manipulating objects.\n> **IMPORTANT NOTICE**: I'm working on v2 with a different API, The current API (v1.1) will become deprecated. The old API is available on branch `v1`.\n## Feauters\n- No dependencies _(at least for now)_\n- Fast and lightweight ⚡️\n# Installation\n**v2 is not published yet**, but it'll be available as `@hkh12/xobj`.\n```sh\nnpm install @hkh12/xobj\n```\n## Usage\n```js\n// `x_` is an alias to xobj\nconst x_ = require('@hkh12/xobj')\n```\n**For a full list of methods, visit [here](docs/README.md).**\n### Builds\nThere are several builds for this library. All of  them are prefixed with `xobj` and are available in `dist` library.\n\n| Filename | Description |\n| --- | --- |\n| `.esm.js` | ES Module |\n| `.common.js` | **Default.** CommonJS module |\n| `.umd.js` | UMD build |\n| `.umd.min.js` | Minified UMD build |",
+    "content": "# XOBJ: Utility library for objects\n![](https://api.travis-ci.org/Hkh12/xobj.svg)\n![](https://david-dm.org/Hkh12/xobj.svg)\n![](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)\n\nA set of functions to work with objects, with no pain.\n> Old API (v1) is available on branch v1.\n## Feauters\n- No dependencies _(at least for now)_\n- Fast and lightweight ⚡️\n## Installation\n### Using NPM\n```sh\nnpm install @hkh12/xobj\n```\n### Using `<script>` tag\n```html\n<script src=\"https://unpkg.com/@hkh12/xobj/dist/xobj.umd.min.js\"></script>\n```\n## Usage\n```js\n// `x_` is an alias to xobj\nconst x_ = require('@hkh12/xobj')\n``` \n**For a full list of methods, visit [here](docs/README.md).**\n### Builds\nThere are several builds for this library. All of  them are prefixed with `xobj` and are available in `dist` directory.\n\n| Filename | Description |\n| --- | --- |\n| `.esm.js` | ES Module |\n| `.common.js` | **Default.** CommonJS module |\n| `.umd.js` | UMD build |\n| `.umd.min.js` | Minified UMD build |",
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/README.md",
     "name": "./README.md",
     "static": true,
@@ -580,7 +588,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"@hkh12/xobj\",\n  \"version\": \"1.1.0\",\n  \"description\": \"extreme methods for objects\",\n  \"scripts\": {\n    \"build\": \"rollup -c\",\n    \"start\": \"rollup -cw\",\n    \"prepublish\": \"npm run build\",\n    \"pretest\": \"npm run build\",\n    \"test\": \"jest\",\n    \"makedocs\": \"esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/Hkh12/xobj.git\"\n  },\n  \"keywords\": [\n    \"object\",\n    \"obj\",\n    \"utility\",\n    \"util\",\n    \"utils\",\n    \"utility-library\"\n  ],\n  \"author\": \"Hosein Khansari <hrk.x11@gmail.com>\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/Hkh12/xobj/issues\"\n  },\n  \"main\": \"dist/xobj.common.js\",\n  \"browser\": \"dist/xobj.umd.js\",\n  \"module\": \"dist/xobj.esm.js\",\n  \"homepage\": \"https://github.com/Hkh12/xobj#readme\",\n  \"devDependencies\": {\n    \"babel-preset-env\": \"^1.7.0\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-publish-markdown-plugin\": \"^1.1.0\",\n    \"jest\": \"^23.4.0\",\n    \"rollup\": \"^0.62.0\",\n    \"rollup-plugin-babel\": \"^3.0.7\",\n    \"rollup-plugin-commonjs\": \"^9.1.3\",\n    \"rollup-plugin-node-resolve\": \"^3.3.0\",\n    \"rollup-plugin-uglify\": \"^4.0.0\"\n  },\n  \"dependencies\": {\n    \"babel-core\": \"^6.26.3\"\n  },\n  \"files\": [\n    \"dist\"\n  ],\n  \"jest\": {\n    \"testRegex\": \"/test/.*.js$\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"@hkh12/xobj\",\n  \"version\": \"2.0.0-alpha.0\",\n  \"description\": \"Utility library for objects\",\n  \"scripts\": {\n    \"build\": \"rollup -c\",\n    \"start\": \"rollup -cw\",\n    \"prepublish\": \"npm run build\",\n    \"pretest\": \"npm run build\",\n    \"test\": \"jest\",\n    \"makedocs\": \"esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/Hkh12/xobj.git\"\n  },\n  \"keywords\": [\n    \"object\",\n    \"obj\",\n    \"utility\",\n    \"util\",\n    \"utils\",\n    \"utility-library\"\n  ],\n  \"author\": \"Hosein Khansari <hrk.x11@gmail.com>\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/Hkh12/xobj/issues\"\n  },\n  \"main\": \"dist/xobj.common.js\",\n  \"browser\": \"dist/xobj.umd.js\",\n  \"module\": \"dist/xobj.esm.js\",\n  \"homepage\": \"https://github.com/Hkh12/xobj#readme\",\n  \"devDependencies\": {\n    \"babel-preset-env\": \"^1.7.0\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-publish-markdown-plugin\": \"^1.1.0\",\n    \"jest\": \"^23.4.0\",\n    \"rollup\": \"^0.62.0\",\n    \"rollup-plugin-babel\": \"^3.0.7\",\n    \"rollup-plugin-commonjs\": \"^9.1.3\",\n    \"rollup-plugin-node-resolve\": \"^3.3.0\",\n    \"rollup-plugin-uglify\": \"^4.0.0\"\n  },\n  \"dependencies\": {\n    \"babel-core\": \"^6.26.3\"\n  },\n  \"files\": [\n    \"dist\"\n  ],\n  \"jest\": {\n    \"testRegex\": \"/test/.*.js$\"\n  }\n}\n",
     "longname": "/home/hosein/Desktop/libs/@hkh12/xobj/package.json",
     "name": "package.json",
     "static": true,

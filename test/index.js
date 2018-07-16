@@ -34,6 +34,7 @@ it('merges', () => {
 it('determines existance of keys in object', () => {
 	expect(x_.has(longObject, 'name')).toBe(true)
 	expect(x_.has(longObject, ['name', 'age'])).toBe(true)
+	expect(x_.has(longObject, ['name', 'age', 'job', 'fruit'], true)).toBe(true)
 	expect(x_.has(longObject, (key, value) => typeof value === 'number')).toBe(true)
 })
 // parsePath

@@ -23,7 +23,7 @@ Gets from object by path.
 | object | Object |  |
 | path | string |  |
 
-## `has(object: Object, key: any): boolean`
+## `has(object: Object, key: any, strict: boolean): boolean`
 
 Determines if object has the given key(s).
 
@@ -31,6 +31,7 @@ Determines if object has the given key(s).
 | --- | --- | --- | --- |
 | object | Object |  |
 | key | any |  | Could be everything: String, an array of strings, or a function that returns a boolean. |
+| strict | boolean | nullable: true | If true and `key` is an array, returns true if `key` is exactly equal to object keys. |
 
 ## `is(obj: Object, acceptArrays: boolean): boolean`
 
@@ -39,7 +40,7 @@ Checks if the given argument is an object.
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
 | obj | Object |  |
-| acceptArrays | boolean | optional: true, default: false | If true, accepts arrays too. |
+| acceptArrays | boolean | nullable: true | If true, accepts arrays too. |
 
 ## `isPure(obj: Object): boolean`
 
@@ -57,7 +58,7 @@ Merges given objects with no recursion.
 | --- | --- | --- | --- |
 | objects | ...Object |  |
 
-## `md(target: Object, source: Object): Object`
+## `mergeDeep(target: Object, source: Object): Object`
 
 Merges with recursion. (deep merge)
 
